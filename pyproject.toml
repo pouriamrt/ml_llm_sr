@@ -1,0 +1,20 @@
+[project]
+name = "liver"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastparquet>=2024.11.0",
+    "imbalanced-learn>=0.14.0",
+    "lightgbm>=4.6.0",
+    "notebook>=7.4.5",
+    "numpy>=2.3.3",
+    "openai>=1.108.1",
+    "pandas>=2.3.2",
+    "pyarrow>=21.0.0",
+    "python-dotenv>=1.1.1",
+    "scikit-learn>=1.7.2",
+    "sentence-transformers>=5.1.0",
+    "tqdm>=4.67.1",
+]
