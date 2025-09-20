@@ -14,22 +14,22 @@ def prep_text_df(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def tri_probs_from_p_inc(p_inc, maybe_low, maybe_high):
-            p = np.asarray(p_inc, dtype=float)
-            p = np.clip(p, 0.0, 1.0)
-            p_exc = 1.0 - p
+    p = np.asarray(p_inc, dtype=float)
+    p = np.clip(p, 0.0, 1.0)
+    p_exc = 1.0 - p
 
-            center = (maybe_low + maybe_high) / 2.0
-            halfw  = max(1e-6, (maybe_high - maybe_low) / 2.0)
-            
-            p_may = 1.0 - np.abs(p - center) / halfw
-            p_may = np.clip(p_may, 0.0, 1.0)
+    center = (maybe_low + maybe_high) / 2.0
+    halfw  = max(1e-6, (maybe_high - maybe_low) / 2.0)
+    
+    p_may = 1.0 - np.abs(p - center) / halfw
+    p_may = np.clip(p_may, 0.0, 1.0)
 
-            denom = p_exc + p_may + p
-            p_exc /= denom
-            p_may /= denom
-            p     /= denom
+    denom = p_exc + p_may + p
+    p_exc /= denom
+    p_may /= denom
+    p     /= denom
 
-            return np.column_stack([p_exc, p_may, p])
+    return np.column_stack([p_exc, p_may, p])
 
 def save_numpy(path: str, arr: np.ndarray):
     os.makedirs(os.path.dirname(path), exist_ok=True)

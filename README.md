@@ -250,16 +250,7 @@ Reduce `LLMCfg.concurrency`, increase `max_retries`, and keep `timeout_s` reason
 
 ## License
 
-Add your license of choice (e.g., MIT) in `LICENSE`.
+MIT `LICENSE`.
 
 ---
 
-## Citation
-
-If you publish work using this screener, consider citing the sentence‑transformers model you used and the OpenAI model employed for weak labels.
-
----
-
-## Maintainers
-
-- Primary: you (Pouria). PRs welcome.
