@@ -48,7 +48,10 @@ class LLMCfg:
     batch_size: int = 20  # title+abstract are short; safe small batches
     # mapping LLM textual confidence to numeric
     confidence_map = {"high": 0.90, "medium": 0.70, "low": 0.55}
-
+    concurrency: int = 10
+    timeout_s: float = 60.0
+    use_fewshots: bool = False
+    
 LABEL_MAP = {"exclude": 0, "maybe": 1, "include": 2}
 INV_LABEL_MAP = {v: k for k, v in LABEL_MAP.items()}
 
