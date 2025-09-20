@@ -22,7 +22,7 @@ def main():
     pred = pd.read_parquet(os.path.join(paths.outputs_dir, "final_predictions.parquet"))
 
     # select high-confidence pseudo-labels from meta
-    mask_inc = pred["prob_include"] >= cfg.pseudo_min_prob
+    mask_inc = pred["prob_include"] >= cfg.pseudo_min_prob   # very confident include
     mask_exc = (1 - pred["prob_include"]) >= cfg.pseudo_min_prob  # very confident exclude
     pseudo = pred[mask_inc | mask_exc].copy()
     pseudo_y = np.where(mask_inc.loc[pseudo.index], LABEL_MAP["include"], LABEL_MAP["exclude"])
@@ -48,20 +48,20 @@ def main():
         num_leaves=cfg.lightgbm_num_leaves,
         learning_rate=cfg.lightgbm_lr,
         objective=obj,
-        class_weight="balanced",
-        random_state=cfg.random_state,
         max_depth=cfg.lightgbm_max_depth,
+        class_weight="balanced",
         min_data_in_leaf=cfg.lightgbm_min_data_in_leaf,
         feature_fraction=cfg.lightgbm_feature_fraction,
         bagging_fraction=cfg.lightgbm_bagging_fraction,
         bagging_freq=cfg.lightgbm_bagging_freq,
-        lambda_l2=1.0,
-        lambda_l1=0.0,
+        reg_lambda=1.0,
+        reg_alpha=0.05,
         max_bin=255,
+        random_state=cfg.random_state,
         n_jobs=-1,
         verbosity=-1
     )
-    clf = CalibratedClassifierCV(base, method="isotonic", cv=3)
+    
     # scikit-learn sample_weight only at fit-time of base; CalibratedClassifierCV quirks exist.
     # For simplicity, we fit base with weights then calibrate freshly.
     base.fit(X_all, y_all, sample_weight=np.concatenate([np.ones_like(yg, dtype=float), 0.2*np.ones_like(pseudo_y, dtype=float)]))

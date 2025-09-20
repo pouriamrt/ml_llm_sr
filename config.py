@@ -36,8 +36,9 @@ class ModelCfg:
     random_state: int = 42
     maybe_low: float = 0.40
     maybe_high: float = 0.60
+    include_weight: float = 8.0
     # thresholds for auto-pseudolabeling (used in self_training.py)
-    pseudo_min_prob: float = 0.975
+    pseudo_min_prob: float = 0.94
 
 @dataclass
 class LLMCfg:
